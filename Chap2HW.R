@@ -1,0 +1,53 @@
+#  Chapter 2
+
+production <- read.table("~/cofc/DATA550/production.txt",header=TRUE)
+attach(production)
+
+#Figure 2.1 on page 16
+par(mfrow=c(1,1))
+
+#Figure 2.3 on page 20
+plot(production$RunSize,production$RunTime,xlab="Run Size", ylab="Run Time",pch=19,col="steelblue",cex=1.3)
+
+#R output on page 19
+m1 <- lm(RunTime~RunSize)
+summary(m1)
+
+abline(lsfit(production$RunSize,production$RunTime),lwd=3)
+
+#t-value on page 23
+tval <- qt(1-0.05/2,18)
+tval
+
+#95% confidence intervals on page 24
+round(confint(m1,level=0.95),3)
+
+#R output on page 27
+predict(m1,newdata=data.frame(RunSize=c(50,100,150,200,250,300,350)),interval="confidence",level=0.95)
+predict(m1,newdata=data.frame(RunSize=c(50,100,150,200,250,300,350)),interval="prediction",level=0.95)
+
+#R output on page 30
+anova(m1)
+detach(production)
+
+
+changeover_times <- read.table("~/cofc/DATA550/changeover_times.txt",header=TRUE)
+attach(changeover_times)
+
+#R output on page 31
+m1 <- lm(Changeover~New)
+summary(m1)
+
+#Figure 2.5 on page 32
+par(mfrow=c(2,2))
+plot(New,Changeover,xlab="Dummy variable, New",ylab="Change Over Time",pch=19,col=10)
+abline(lsfit(New,Changeover))
+boxplot(Changeover~New,xlab="Dummy variable, New",ylab="Change Over Time")
+boxplot(Changeover~Method,ylab="Change Over Time",xlab="Method")
+
+#t-value on page 33
+tval <- qt(1-0.05/2,118)
+tval
+
+detach(changeover_times)
+
